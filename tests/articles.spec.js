@@ -1,13 +1,13 @@
 const supertest = require('supertest');
-const app = require('../votre_chemin_vers_l_application/server'); // Assurez-vous de spécifier le bon chemin
+const app = require('server.js');
 
 // Chemins Articles
 const createArticleEndpoint = '/api/articles';
-const updateArticleEndpoint = '/api/articles/{articleId}'; 
-const deleteArticleEndpoint = '/api/articles/{articleId}'; 
+const updateArticleEndpoint = '/api/articles/{TEST1}'; 
+const deleteArticleEndpoint = '/api/articles/{TEST2}'; 
 
 describe('Tests des opérations CRUD pour les articles', () => {
-  let createdArticleId; // Stocker l'ID de l'article créé pour les tests ultérieurs
+  let createdArticleId;
 
   it('Devrait créer un nouvel article', async () => {
     const response = await supertest(app)
@@ -17,8 +17,8 @@ describe('Tests des opérations CRUD pour les articles', () => {
         content: 'Contenu de l\'article'
       })
       .expect(201);
-
-    createdArticleId = response.body._id; // Stocker l'ID de l'article créé
+// ID de l'article créé
+    createdArticleId = response.body._id; 
   });
 
   it('Devrait mettre à jour un article existant', async () => {
