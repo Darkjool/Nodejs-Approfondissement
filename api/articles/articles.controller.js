@@ -49,8 +49,20 @@ async function deleteArticle(req, res) {
   }
 }
 
+// Récupérer les articles d'un utilisateur
+async function getUserArticles(req, res) {
+  const userId = req.params.userId; // Récupérer l'ID de l'utilisateur à partir des paramètres de la requête
+  try {
+    const articles = await ArticlesService.getUserArticles(userId);
+    res.json(articles);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
 module.exports = {
   createArticle,
   updateArticle,
-  deleteArticle
+  deleteArticle,
+  getUserArticles
 };
