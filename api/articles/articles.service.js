@@ -37,8 +37,23 @@ async function deleteArticle(articleId) {
   }
 }
 
+// Récupération artcile user (sans mdp) 
+async function getUserArticles(userId) {
+  try {
+    const articles = await Article.find({ user: userId }).populate({
+      path: "user",
+      // Sans mot de passe
+      select: "-password" 
+    });
+    return articles;
+  } catch (error) {
+    throw new Error("Erreur lors de la récupération des articles de l'utilisateur.");
+  }
+}
+
 module.exports = {
   createArticle,
   updateArticle,
-  deleteArticle
+  deleteArticle,
+  getUserArticles
 };
