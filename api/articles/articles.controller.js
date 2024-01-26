@@ -1,12 +1,12 @@
 const ArticlesService = require("./articles.service");
 
-// Contrôleur pour créer un nouvel article
+// Création d'un nouvel article
 async function createArticle(req, res) {
   const { title, content } = req.body;
   const userId = req.user.id;
   try {
     const article = await ArticlesService.createArticle(title, content, userId);
-    // Émettre un événement "articleCreated" avec les détails de l'article nouvellement créé
+    // Event article créé 
     req.io.emit("articleCreated", article);
     res.status(201).json(article);
   } catch (error) {
@@ -14,13 +14,17 @@ async function createArticle(req, res) {
   }
 }
 
-// Contrôleur pour mettre à jour un article existant
+// MAJ Existant
 async function updateArticle(req, res) {
   const { id } = req.params;
   const updatedFields = req.body;
   try {
+    // VERIFICATION ADMINISTRATEUR
+    if (req.user.role !== "admin") {
+      throw new Error("Unauthorized: Only admins can update articles.");
+    }
     const article = await ArticlesService.updateArticle(id, updatedFields);
-    // Émettre un événement "articleUpdated" avec les détails de l'article mis à jour
+    // MAJ Event
     req.io.emit("articleUpdated", article);
     res.json(article);
   } catch (error) {
@@ -28,12 +32,16 @@ async function updateArticle(req, res) {
   }
 }
 
-// Contrôleur pour supprimer un article existant
+// Suppression article existant
 async function deleteArticle(req, res) {
   const { id } = req.params;
   try {
+    // VERIFICATION ADMINISTRATEUR
+    if (req.user.role !== "admin") {
+      throw new Error("Unauthorized: Only admins can delete articles.");
+    }
     const article = await ArticlesService.deleteArticle(id);
-    // Émettre un événement "articleDeleted" avec l'ID de l'article supprimé
+    // EVENT Article supprimé
     req.io.emit("articleDeleted", { id });
     res.json(article);
   } catch (error) {
