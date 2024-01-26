@@ -13,7 +13,9 @@ let Article;
 
 module.exports = Article = model("Article", articleSchema);
 
-/*async function test() {
+/*
+
+async function test() {
   const articles = await Article.find().populate({
     path: "user",
     select: "-password",
@@ -22,4 +24,16 @@ module.exports = Article = model("Article", articleSchema);
   console.log(articles.filter((article) => article.user));
 }
 
-test();*/
+test();
+
+1.	Diagramme UML de la base de données :
++------------------+             +--------------------+
+|     Article      |   ------>   |        User        |
++------------------+             +--------------------+
+| - _id: ObjectId  |             | - _id: ObjectId    |
+| - title: String  |             | - name: String |
+| - content: String|             | - password: String |
+| - user: ObjectId +   ------>   |                    |
++------------------+             +--------------------+
+
+*/
