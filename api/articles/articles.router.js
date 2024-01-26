@@ -1,15 +1,17 @@
 const express = require("express");
 const router = express.Router();
-const ArticlesController = require("./articles.controller");
-const authMiddleware = require("./authMiddleware");
+const UsersController = require("./users.controller");
 
-// Création d'un article
-router.post("/", authMiddleware, ArticlesController.createArticle);
+// Nouvel article
+router.post("/articles", UsersController.createArticle);
 
 // MAJ Article
-router.put("/:id", ArticlesController.updateArticle);
+router.put("/articles/:id", UsersController.updateArticle);
 
 // Suppression article
-router.delete("/:id", ArticlesController.deleteArticle);
+router.delete("/articles/:id", UsersController.deleteArticle);
+
+// Récupération article user
+router.get("/:userId/articles", UsersController.getUserArticles);
 
 module.exports = router;
